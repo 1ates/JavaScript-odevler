@@ -5,28 +5,32 @@ const STORAGE_KEY = "tasks";
 
 // listedekilere buton ekleme ve local storage'a kayıt etme
 window.addEventListener("DOMContentLoaded", () => {
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  // window'u dinle ve DOM içeriği yüklendiğinde yap
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); // kayıtlı verileri saved'in içine koy
   if (saved && Array.isArray(saved)) {
+    // saved bir dizi ise
     // LocalStorage'ta bilgi varsa görevleri storage'dan tekrar render et
-    renderFromStorage(saved);
-    const lastLi = document.querySelector("#list li:last-child");
-    idCounter = lastLi ? Number(lastLi.id) + 1 : 0;
+    renderFromStorage(saved); // saved içindekilere render fonksiyonunu uygula
+    const lastLi = document.querySelector("#list li:last-child"); // list id'li elementin son li elementini seç lastLi'ye at
+    idCounter = lastLi ? Number(lastLi.id) + 1 : 0; // lastLi'nin id'ine 1 ekle ve sayaca at, eğer yoksa sayaca 0 at
   } else {
     // kayıtta görev yoksa index.html içinden oku ve listeyi doldur
-    const initialTasks = [];
-    const liItems = document.querySelectorAll("#list li");
+    const initialTasks = []; // yeni dizi oluştur
+    const liItems = document.querySelectorAll("#list li"); // list id'li elementin li elementlerini liItems içine at
     liItems.forEach((li, index) => {
-      li.id = index;
+      // her bir li elementini sırayla dön
+      li.id = index; // id bilgisine index'i at
       initialTasks.push({
-        id: index,
-        text: li.textContent.trim(),
-        checked: li.classList.contains("checked"),
+        // oluşturduğumuz dininin içine aşağıdakileri koy
+        id: index, // id'sine index bilgisini
+        text: li.textContent.trim(), // text'ine boşluklardan arındırılmış içerik bilgisini
+        checked: li.classList.contains("checked"), // checked'ına da yapılıp yapılmadığını tutan class içeriğini
       });
-      attachCloseButton(li);
+      attachCloseButton(li); // silme butonu ekleme fonksiyonu ile butonu ekle
     });
-    const lastLi = document.querySelector("#list li:last-child");
-    idCounter = lastLi ? Number(lastLi.id) + 1 : 0;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(initialTasks));
+    const lastLi = document.querySelector("#list li:last-child"); // list id'li elementin son li elementini seç lastLi'ye at
+    idCounter = lastLi ? Number(lastLi.id) + 1 : 0; // lastLi'nin id'ine 1 ekle ve sayaca at, eğer yoksa sayaca 0 at
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(initialTasks)); // oluşturduğumuz diziyi localStorage'a kaydet
   }
 });
 
